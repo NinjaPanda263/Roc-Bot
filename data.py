@@ -230,7 +230,7 @@ class CategoryLister():
         elif self.sub_command == "zen":
             return f"{customemoji(self.bot_self, 'zen')} Zens"
         elif self.sub_command == "rarity":
-            return f"{customemoji(self.bot_self, 'vegemite')} Rarities"
+            return f"{customemoji(self.bot_self, 'pinchallenge')} Rarities"
         else:
             pass
 
