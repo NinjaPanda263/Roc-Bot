@@ -74,8 +74,8 @@ class Mission():
     def day_number(self):
         if self.sub_com == 'next':
             day = int((datetime.now(timezone.utc) - datetime(2019,8,18,0,0,0, tzinfo=timezone.utc)).days) + 1
-            print(day % 21)
+            #print(day % 21)
             return day % 21
         else:
-            print((datetime.now(timezone.utc) - datetime(2019,8,18,0,0,0, tzinfo=timezone.utc)).days % 21)
+            #print((datetime.now(timezone.utc) - datetime(2019,8,18,0,0,0, tzinfo=timezone.utc)).days % 21)
             return (datetime.now(timezone.utc) - datetime(2019,8,18,0,0,0, tzinfo=timezone.utc)).days % 21
