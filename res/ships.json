@@ -88,5 +88,8 @@
   "starless": {"number":"87", "ship_name":"Starless", "affinity":"Shield Breaker", "dmg":"31.25", "weapon_name":"Plasma Blasters", "aura":"Goliath Missile", "zen":"Reflex EMP", "rarity":"Rare"},
   "kibarrax": {"number":"88", "ship_name":"Kibarrax", "affinity":"High Impact", "dmg":"31.25", "weapon_name":"Umomu Lasers", "aura":"Missile Swarm", "zen":"Mega Bomb", "rarity":"Common"},
   "banshee": {"number":"89", "ship_name":"Banshee", "affinity":"Shield Breaker", "dmg":"25", "weapon_name":"Stormbringer", "aura":"Goliath Missile", "zen":"Focus Lance", "rarity":"Super Rare"},
-  "zimitr": {"number":"90", "ship_name":"Zimitr", "affinity":"Shield Breaker", "dmg":"25", "weapon_name":"Arurus Satellites", "aura":"Stun EMP", "zen":"Reflex EMP", "rarity":"Rare"}
+  "zimitr": {"number":"90", "ship_name":"Zimitr", "affinity":"Shield Breaker", "dmg":"25", "weapon_name":"Arurus Satellites", "aura":"Stun EMP", "zen":"Reflex EMP", "rarity":"Rare"},
+  "jeria": {"number":"91", "ship_name":"jeria", "affinity":"Shield Breaker", "dmg":"31.25", "weapon_name":"Boson Charges", "aura":"Vorpal Lance", "zen":"Reflex EMP", "rarity":"Rare"},
+  "centurion": {"number":"92", "ship_name":"Centurion", "affinity":"High Impact", "dmg":"31.25", "weapon_name":"Rift Laser", "aura":"Goliath Missile", "zen":"Personal Shield", "rarity":"Super Rare"},
+  "stinger": {"number":"93", "ship_name":"Stinger", "affinity":"Armor Piercing", "dmg":"31.25", "weapon_name":"Quantum Repeaters", "aura":"Barrier", "zen":"Focus Lance", "rarity":"Common"}
 }

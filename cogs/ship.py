@@ -40,7 +40,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @commands.guild_only()
     async def detail(self, ctx, *, arg1):
         print(ctx.channel.id)
-        if ctx.channel.id in [378546862627749908,596343881705062417]:
+        if ctx.channel.id in [378546862627749908,722494845305749524]:
             await ctx.send(embed=ShipData(self, arg1).embed_detail)
         else:
             await ctx.send("Command limited to <#378546862627749908>.")

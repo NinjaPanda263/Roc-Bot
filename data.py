@@ -73,8 +73,8 @@ class ShipData():
         return embed_description
     
     def get_ship_image(self):
-        urlgit = "https://github.com/Phoenix-II-Community/apex-bot/raw/master/img/"
-        img_url = (f"{urlgit}{sanitise_input(self.ship_name.lower())}.png")
+        urlgit = "https://raw.githubusercontent.com/ewong18/roc-bot/ewong18/ships/"
+        img_url = ("{giturl}ship_{shipnumber}.png").format(giturl=urlgit, shipnumber=self.s_obj['number'])
         return img_url
         
     # create a discod embed object. Using the Ship class to collect the required 

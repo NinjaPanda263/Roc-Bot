@@ -141,8 +141,10 @@ def get_ship_title(ship_name):
     return ship_title
 
 def get_ship_image(ship_name):
-    urlgit = "https://github.com/Phoenix-II-Community/apex-bot/raw/master/img/"
-    url = ("{giturl}{shipname}.png").format(giturl=urlgit, shipname=ship_name)
+    urlgit = "https://raw.githubusercontent.com/ewong18/roc-bot/ewong18/ships/"
+    url = ("{giturl}ship_{shipnumber}.png").format(giturl=urlgit, shipnumber=number)
+    print(url)
+    #url = ("{giturl}{shipname}.png").format(giturl=urlgit, shipname=ship_name)
     return url
 
 
