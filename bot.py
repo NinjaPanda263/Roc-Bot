@@ -27,14 +27,15 @@ initial_extensions = ['cogs.simple',
                       'cogs.invader',
                       'cogs.daily',
                       'cogs.img',
-                      'cogs.ship'
+                      'cogs.ship',
+                      'cogs.owner'
                       ]
 
 bot = commands.Bot(
     command_prefix=get_prefix, 
     description='Phoenix 2 iOS information bot',
-    # my current ID, change to yours when running
-    owner_id=330274890802266112)
+    # Jinbe current ID, change to yours when running
+    owner_id=197895310108917762)
 
 
 # Here we load our extensions(cogs) listed above in [initial_extensions].

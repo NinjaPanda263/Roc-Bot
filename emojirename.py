@@ -2,23 +2,24 @@
 # files in a directory or folder 
   
 # importing os module 
-import os 
-import json
-from pathlib import Path
-# Function to rename multiple files 
-home_dir = Path.home()
-emojiname_json = open(('{hd}/scripts/apex-bot/res/shipemojiname.json').format(hd=home_dir))
-emojiname_data = json.load(emojiname_json)
+import os
 
+# Function to rename multiple files in the format
+# friendlyship_##_skin_#_Normal@2x.png
+# to ship_##_apex_#.png
+def emojirenamefunc():
+    for filename in os.listdir():
+        tokens = filename.split('_')
+        if len(tokens) == 5: #i want to try to make this into regex later
+            newname = 'ship_'+ tokens[1] +'_apex_'+ tokens[3] + '.png'
+        elif len(tokens) == 3:
+            newname = 'ship_' + tokens[1] + '.png'
+        else:
+            newname = filename
+        os.rename(filename,newname)
+        
+emojirenamefunc()
 
-def emojirenamefunc():    
-    for filename in os.listdir(): 
-        print(filename)
-        #if filename == 
-        #dst ="Hostel" + str(i) + ".jpg"
-        #src ='xyz'+ filename 
-        #dst ='xyz'+ dst 
-            
         # rename() function will 
         # rename all the files 
         #os.rename(src, dst) 
