@@ -6,9 +6,10 @@ import discord.ext.commands
 import sqlite3
 from discord.ext import commands
 from discord.utils import get
-from fuzzywuzzy import process, fuzz
-from common import sanitise_input, ship_search, customemoji
-from data import ShipData
+from rapidfuzz import process, fuzz
+from res.common import sanitise_input, ship_search, customemoji
+from res.data import ShipData
+
 import re
 
 
@@ -55,10 +56,11 @@ def sql_rank_obj():
     return r_obj
 
 def get_ship_image(ship_name):
-    urlgit =    "https://raw.githubusercontent.com/ewong18/roc-bot/ewong18/ships/"
-        #"https://raw.githubusercontent.com/Phoenix-II-Community/apex-bot/cogs_rewrite/ships/"
-    url = f"{urlgit}ship_{ship_name}.png"
-    return url
+
+    urlgit =    "https://raw.githubusercontent.com/ewong18/Roc-Bot/master/ships/"
+    return f"{urlgit}ship_{ship_name}.png"
+
+
 
 class ImgageCog(commands.Cog, name="Imgage Commands"):
     """ImgageCog"""

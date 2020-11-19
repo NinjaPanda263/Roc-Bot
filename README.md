@@ -1,15 +1,17 @@
-# apex-bot
+# roc-bot
 
 Information bot for the community Phoenix II discord server. 
+Original version located at: https://github.com/Phoenix-II-Community/apex-bot/tree/master
 
 ## Installation 
-`git clone git@github.com:Phoenix-II-Community/apex-bot.git`
+`git clone https://github.com/ewong18/Roc-Bot.git`
 
-Dependancies
+Dependencies
 
 ```
 python3 -m pip install -U discord.py
-python3 -m pip install -U fuzzywuzzy
+python3 -m pip install -U rapidfuzz
+>>>>>>> local/master
 ```
 
 ## Bot Commands
@@ -35,13 +37,24 @@ python3 -m pip install -U fuzzywuzzy
 !ship rarity <rarity>           list ships in a rarity
 !ship zen                       list of Zens
 !ship zen <zen>                 list of ships with zen name
-!ship help                     ship help
+!ship help                      ship help
+
 ```
 
 #### SOURCE
 ```
 !source                         link to github repo
 ```
+
+
+#### DAILY
+```
+!daily                         current daily briefing
+!daily next                    next daily briefing
+!daily all                     list of full mission rotation
+!daily <n>                     briefing for desired mission rotaion number (1-21)
+```
+
 
 #### INVADER 
 ```
@@ -70,7 +83,7 @@ python3 -m pip install -U fuzzywuzzy
 #!apex ship <ship>               apexs the ship has
 #!apex description <apex_name>   apex Description
 #!apex find <apex_name>          list ships with <apex_name>, 
-                                include cost, apex_type (weapon/aura/zen)
+                                 include cost, apex_type (weapon/aura/zen)
 #!apex rank <apex_rank>          list of ships matching apex rank
 ```
 
@@ -88,3 +101,4 @@ Phoenix II is an arcade Shoot'Em Up developed by Firi Games in 2016. Firi Games 
 ----
 
 Open sourced under the [MIT license].
+
