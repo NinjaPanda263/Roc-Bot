@@ -28,7 +28,8 @@ initial_extensions = ['cogs.simple',
                       'cogs.daily',
                       'cogs.img',
                       'cogs.ship',
-                      'cogs.owner'
+                      'cogs.owner',
+                      'cogs.price'
                       ]
 
 bot = commands.Bot(
