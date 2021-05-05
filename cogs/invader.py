@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import discord
+import inspect
 import discord.ext.commands
 from discord.ext import commands
 from discord.utils import get
@@ -16,7 +17,7 @@ class InvaderCog(commands.Cog, name="Invader Commands"):
     @commands.group(invoke_without_command=True, aliases=['invaders'])
     @commands.guild_only()
     async def invader(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if ctx.invoked_subcommand is None and arg1 is None:
             await ctx.send('Invalid invader command passed.')
         else:
@@ -24,29 +25,27 @@ class InvaderCog(commands.Cog, name="Invader Commands"):
 
     #@invader.command()
     #async def turrets(self, ctx, *, arg1=None):
-    #    sc = ctx.subcommand_passed
+    #    sc = inspect.stack()[0][3]
     #    await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
     @invader.command()
     async def unprotected(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
-    #This is the easiest way to account for difference in spelling, but
-    #It's probably not the best "cog" way
-    @invader.command(aliases=['armoured'])
+    @invader.command(aliases=['armoured','armor','armour'])
     async def armored(self, ctx, *, arg1=None):
-        sc = 'armored'
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
-    @invader.command()
+    @invader.command(aliases=['shield'])
     async def shielded(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
     @invader.command()
     async def split(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
 def setup(bot):
