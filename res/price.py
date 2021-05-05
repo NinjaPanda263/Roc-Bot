@@ -28,6 +28,6 @@ class Prices():
     def p_embed(self):
         desc = ''
         for row in self.p_obj:
-            desc = desc + str(row['Level']) + '! - ' + row['Cost'] + '\n'
+            desc = desc + str(row['Level']) + ' - ' + row['Cost'] + '\n'
         embed = discord.Embed(title='Level' + '\t' + 'Cost', description=desc)
         return embed
