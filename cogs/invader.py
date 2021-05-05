@@ -3,6 +3,7 @@
 
 import discord
 import discord.ext.commands
+import inspect
 from discord.ext import commands
 from discord.utils import get
 from res.invaders import invader_type
@@ -16,7 +17,7 @@ class InvaderCog(commands.Cog, name="Invader Commands"):
     @commands.group(invoke_without_command=True, aliases=['invaders'])
     @commands.guild_only()
     async def invader(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if ctx.invoked_subcommand is None and arg1 is None:
             await ctx.send('Invalid invader command passed.')
         else:
@@ -24,12 +25,12 @@ class InvaderCog(commands.Cog, name="Invader Commands"):
 
     #@invader.command()
     #async def turrets(self, ctx, *, arg1=None):
-    #    sc = ctx.subcommand_passed
+    #    sc = inspect.stack()[0][3]
     #    await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
     @invader.command()
     async def unprotected(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
     #This is the easiest way to account for difference in spelling, but
@@ -41,12 +42,12 @@ class InvaderCog(commands.Cog, name="Invader Commands"):
 
     @invader.command()
     async def shielded(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
     @invader.command()
     async def split(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         await ctx.send(embed=invader_type(ctx, sc, arg1).i_embed)
 
 def setup(bot):

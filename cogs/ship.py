@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import discord
+import inspect
 from discord.ext import commands
 #from ship_func import random_ship_command_embed, all_ship_command_embed
 from res.data import ShipData, CategoryLister, ShipLister
@@ -48,7 +49,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='dmg')
     @commands.guild_only()
     async def dmg(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if arg1 == None:
             await ctx.send(embed=CategoryLister(self, sc).embed_list)
         else:
@@ -57,7 +58,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='aura')
     @commands.guild_only()
     async def aura(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if arg1 == None:
             await ctx.send(embed=CategoryLister(self, sc).embed_list)
         else:
@@ -67,7 +68,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='zen')
     @commands.guild_only()
     async def zen(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if arg1 == None:
             await ctx.send(embed=CategoryLister(self, sc).embed_list)
         else:
@@ -76,7 +77,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='rarity')
     @commands.guild_only()
     async def rarity(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if ctx.channel.id in [378546862627749908,722494845305749524]:
             if arg1 == None:
                 await ctx.send(embed=CategoryLister(self, sc).embed_list)
@@ -89,7 +90,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='affinity')
     @commands.guild_only()
     async def affinity(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if arg1 == None:
             await ctx.send(embed=CategoryLister(self, sc).embed_list)
         else:
@@ -98,7 +99,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='rand')
     @commands.guild_only()
     async def rand(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if ctx.channel.id in [378546862627749908,722494845305749524]:
             if arg1 == None:
                 arg1 = 10
@@ -111,7 +112,7 @@ class ShipCog(commands.Cog, name="Ship Commands"):
     @ship.command(name='all')
     @commands.guild_only()
     async def all(self, ctx, *, arg1=None):
-        sc = ctx.subcommand_passed
+        sc = inspect.stack()[0][3]
         if ctx.channel.id in (378546862627749908,722494845305749524):
             await ShipLister(self, ctx, arg1, sc).create_embed()
         else:
