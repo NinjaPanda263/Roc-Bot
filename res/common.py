@@ -121,11 +121,6 @@ def dmg_bracket_list():
         dmg_list.append(i)
     return dmg_list
 
-
-
-
-33234234234
-
 def sql_arg_list():
     # connect to the sqlite database
     conn = sqlite3.connect('rocbot.sqlite')

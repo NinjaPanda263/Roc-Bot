@@ -234,4 +234,42 @@ class CategoryLister():
         else:
             pass
 
+class ApexLister():
+    def __init__(self, bot_self, find_this):
+        self.bot_self = bot_self
+        self.ship_name = ship_search(find_this)
+        self.s_obj = self.sql_ship_obj()
+        self.embed_list = self.create_list()
 
+    def sql_ship_obj(self):
+        # connect to the sqlite database
+        conn = sqlite3.connect('rocbot.sqlite')
+        # return a class sqlite3.row object which requires a tuple input query
+        conn.row_factory = sqlite3.Row
+        # make an sqlite connection object
+        c = conn.cursor()
+        # using a defined view s_info collect all table info
+        c.execute('select * from s_apex where name = ?', (self.ship_name,))
+        # return the ship object including the required elemnts
+        s_obj = c.fetchall()
+        # close the databse connection
+        conn.close()
+        # return the sqlite3.cursor object
+        return s_obj
+
+    def create_list(self):
+        description = ''
+        
+        for i in self.s_obj:
+            apex_type = ''
+            ship_apex = sanitise_input(i['name'].lower() + i['rank'].upper())
+            find_emoji = discord.utils.get(self.bot_self.bot.emojis, name = ship_apex)
+            print(ship_apex)
+            if i['type'] == 'aura':
+                apex_type = i['aura']
+            if i['type'] == 'zen':
+                apex_type = i['zen']
+            if i['type'] == 'weapon':
+                apex_type = 'Main Weapon'
+            description = f"{description} {find_emoji} {i['rank']}: {i['apex']} - {apex_type} \n"
+        return description

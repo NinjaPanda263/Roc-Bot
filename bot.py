@@ -29,7 +29,8 @@ initial_extensions = ['cogs.simple',
                       'cogs.img',
                       'cogs.ship',
                       'cogs.owner',
-                      'cogs.price'
+                      'cogs.price',
+                      'cogs.apex'
                       ]
 
 bot = commands.Bot(
