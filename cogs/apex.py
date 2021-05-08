@@ -70,11 +70,10 @@ class ApexCog(commands.Cog, name="Apex Commands"):
     # arg1 is everthing after the command
     async def apex(self, ctx, *, arg1):
         rank_list = [i[0] for i in sql_rank_obj()]
-        res = [i for i in rank_list if i.lower() in arg1.lower()]
-#        tokens = arg1.split(" ")
+        tokens = arg1.split(" ")
         s_obj = sql_ship_obj()
         ##If no apex rank is given, show list of available apexes
-        if len(res) == 0:# and len(tokens)==1:
+        if len(tokens)==1:
             s_obj = ShipData(ctx, arg1).s_obj
             apex_embed_title = f"Apexes for {s_obj['name']}"
             colour = get_em_colour(s_obj['affinity'])
@@ -88,11 +87,12 @@ class ApexCog(commands.Cog, name="Apex Commands"):
         else:
             a_obj = sql_apex_num_obj()
             s_obj = ShipData(ctx, arg1).s_obj
-            apex_obj = ApexData(ctx, s_obj['name'],res[0])
+            apex_tier = process.extractOne(arg1, rank_list)[0]
+            apex_obj = ApexData(ctx, s_obj['name'],apex_tier)
             colour = get_em_colour(s_obj['affinity'])
             embed = discord.Embed(title=apex_obj.embed_title, color=colour, description=apex_obj.embed_desc)
             for i in a_obj:
-                if i['id'] == s_obj['number'] and i['rank'] == res[0]:
+                if i['id'] == s_obj['number'] and i['rank'] == apex_tier:
                     embed.set_thumbnail(url=get_ship_image(f"{i['id']}_apex_{i['apex_num']}"))
             await ctx.send(embed=embed)
 
