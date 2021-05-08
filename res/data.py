@@ -238,10 +238,10 @@ class ApexLister():
     def __init__(self, bot_self, find_this):
         self.bot_self = bot_self
         self.ship_name = ship_search(find_this)
-        self.s_obj = self.sql_ship_obj()
+        self.s_apex_obj = self.sql_apex_obj()
         self.embed_list = self.create_list()
 
-    def sql_ship_obj(self):
+    def sql_apex_obj(self):
         # connect to the sqlite database
         conn = sqlite3.connect('rocbot.sqlite')
         # return a class sqlite3.row object which requires a tuple input query
@@ -251,25 +251,79 @@ class ApexLister():
         # using a defined view s_info collect all table info
         c.execute('select * from s_apex where name = ?', (self.ship_name,))
         # return the ship object including the required elemnts
-        s_obj = c.fetchall()
+        s_apex_obj = c.fetchall()
         # close the databse connection
         conn.close()
         # return the sqlite3.cursor object
-        return s_obj
+        return s_apex_obj
 
     def create_list(self):
         description = ''
-        
-        for i in self.s_obj:
+        for i in self.s_apex_obj:
             apex_type = ''
             ship_apex = sanitise_input(i['name'].lower() + i['rank'].upper())
             find_emoji = discord.utils.get(self.bot_self.bot.emojis, name = ship_apex)
-            print(ship_apex)
             if i['type'] == 'aura':
                 apex_type = i['aura']
             if i['type'] == 'zen':
                 apex_type = i['zen']
             if i['type'] == 'weapon':
                 apex_type = 'Main Weapon'
-            description = f"{description} {find_emoji} {i['rank']}: {i['apex']} - {apex_type} \n"
+            description = f"{description} {find_emoji} {i['rank']}: {i['apex']} - {apex_type} (cost: {i['cost']}\xa2) \n"
         return description
+        
+class ApexData():
+    def __init__(self, bot_self, find_this, res):
+        self.bot_self = bot_self
+        self.ship_name = find_this
+        self.apex_tier = res
+        self.apex_obj = self.sql_apex_obj()
+        self.embed_title = self.get_title()
+        self.embed_desc = self.get_description()
+        
+    def sql_apex_obj(self):
+        # connect to the sqlite database
+        conn = sqlite3.connect('rocbot.sqlite')
+        # return a class sqlite3.row object which requires a tuple input query
+        conn.row_factory = sqlite3.Row
+        # make an sqlite connection object
+        c = conn.cursor()
+        # using a defined view s_info find the ship
+        c.execute('select * from s_apex where name = ? and rank = ?', (self.ship_name,self.apex_tier))
+        # return the ship object including the required elemnts
+        s_apex_obj = c.fetchone()
+        # close the databse connection
+        conn.close()
+        # return the sqlite3.cursor object
+        return s_apex_obj
+
+    # Creates the title of the discord emebed consisting of the rarity emoji
+    # the ship name.
+    def get_title(self):
+        embed_title = (
+            f"{self.apex_obj['name']} {self.apex_obj['rank']}")
+        return embed_title
+    
+    # The embed is made up of two sections of content the title and this section
+    # the descriotion. The description contains weapon, aura and zen info using
+    # an emoji followed by the relevant name of the section.
+    #
+    # The description previously used format() instead f strings bceause at the
+    # time I didn't see how f strings were suited to json and dicts however
+    # since using a class that's changed and f strings seemed clearer to read.
+    def get_description(self):
+        row = self.apex_obj
+        apex_type = ''
+        if row['type'] == 'aura':
+            apex_type = row['aura']
+        if row['type'] == 'zen':
+            apex_type = row['zen']
+        if row['type'] == 'weapon':
+            apex_type = 'Main Weapon'
+        embed_description = (
+            f"Cost: {row['cost']}\xa2\n"
+            f"Apex: {row['apex']}\n"
+            f"Type: {apex_type}\n"
+            f"Description: {row['a_desc']}")
+        return embed_description
+    
