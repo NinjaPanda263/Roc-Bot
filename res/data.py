@@ -124,6 +124,7 @@ class ShipLister():
             c.execute(f"select * from s_info where {self.sub_command} = ?", (self.arg1,))
         s_obj = c.fetchall()
         conn.close()
+        print(self.arg1)
         return s_obj
 
     def create_description(self):
@@ -269,7 +270,7 @@ class ApexLister():
                 apex_type = i['zen']
             if i['type'] == 'weapon':
                 apex_type = 'Main Weapon'
-            description = f"{description} {find_emoji} {i['rank']}: {i['apex']} - {apex_type} (cost: {i['cost']}\xa2) \n"
+            description = f"{description} {find_emoji} {i['rank']}: {i['apex']} - {apex_type} (cost: {i['cost']:,}\xa2) \n"
         return description
         
 class ApexData():
@@ -321,7 +322,7 @@ class ApexData():
         if row['type'] == 'weapon':
             apex_type = 'Main Weapon'
         embed_description = (
-            f"Cost: {row['cost']}\xa2\n"
+            f"Cost: {row['cost']:,}\xa2\n"
             f"Apex: {row['apex']}\n"
             f"Type: {apex_type}\n"
             f"Description: {row['a_desc']}")

@@ -5,7 +5,7 @@ import discord
 import inspect
 import discord.ext.commands
 from discord.ext import commands
-from res.price import Prices
+from res.price import Prices, ApexPrices
 
 class PriceCog(commands.Cog, name='Price Commands'):
     """PriceCog"""
@@ -36,6 +36,11 @@ class PriceCog(commands.Cog, name='Price Commands'):
     async def zen(self, ctx, *, arg1=None):
         sc = inspect.stack()[0][3]
         await ctx.send(embed=Prices(ctx, sc, arg1).p_embed())
+    
+    @price.command(aliases=['apexes'])
+    async def apex(self, ctx, *, arg1=None):
+        sc = inspect.stack()[0][3]
+        await ctx.send(embed=ApexPrices(ctx, sc, arg1).p_embed())
 
 def setup(bot):
     bot.add_cog(PriceCog(bot))

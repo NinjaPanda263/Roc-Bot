@@ -129,17 +129,37 @@ def sql_arg_list():
     # make an sqlite connection object
     c = conn.cursor()
     # creates a variable and assigns the list of ship names to it
-    dmg_obj = c.execute('''SELECT name FROM shortcut''').fetchall()
+    arg_obj = c.execute('''SELECT name FROM shortcut''').fetchall()
     # close the databse connection
     conn.close()
     # return a list of ship names
-    return dmg_obj
+    return arg_obj
 
 def arg_parse_list():
-    dmg_list = []
+    arg_list = []
     for i in sql_arg_list():
-        dmg_list.append(i)
-    return dmg_list
+        arg_list.append(i)
+    return arg_list
+    
+def sql_shortcut_list():
+    # connect to the sqlite database
+    conn = sqlite3.connect('rocbot.sqlite')
+    # Return a list of items instead of 1 item tuples
+    conn.row_factory = lambda cursor, row: row[0]
+    # make an sqlite connection object
+    c = conn.cursor()
+    # creates a variable and assigns the list of ship names to it
+    shortcut_obj = c.execute('''SELECT shortcut FROM shortcut''').fetchall()
+    # close the databse connection
+    conn.close()
+    # return a list of ship names
+    return shortcut_obj
+
+def shct_parse_list():
+    shct_list = []
+    for i in sql_shortcut_list():
+        shct_list.append(i)
+    return shct_list
 
 def argument_parser(sc, arg1):
     clean_arg1 = sanitise_input(arg1)
@@ -155,14 +175,18 @@ def argument_parser(sc, arg1):
             return 10
         else:
             return arg1
+    elif clean_arg1.lower() in shct_parse_list():
+        shortcut = shortcut_obj(clean_arg1.lower())
+        return shortcut[0]['name']
+ #DIFFERENT WAY TO DO SAME THING
+ #   elif (sc == 'aura' or sc == 'zen' or sc == 'affinity') and (len(clean_arg1) <= 4):
+ #       print('in here')
+ #       shortcut = shortcut_obj(clean_arg1.lower())
+ #       if len(shortcut) > 0:
+ #            return shortcut[0]['name']
     else:
-        if len(clean_arg1) <= 4:
-            shortcut = shortcut_obj(clean_arg1.lower())
-            if len(shortcut) > 0:
-                return shortcut[0]['name']
-        else:
-            arg_found = process.extractOne(clean_arg1, arg_parse_list())
-            return arg_found[0]
+        arg_found = process.extractOne(clean_arg1, arg_parse_list())
+        return arg_found[0]
 
 def get_em_colour(arg1):
     embed_colours = {"Shield Breaker": 0x3a77f9, "High Impact": 0xee4529, "Armor Piercing": 0xffb820}
