@@ -62,8 +62,6 @@ python3 -m pip install -U rapidfuzz
 !invader list                   invader names and turret count
 ```
 
-## Command Todos
-
 #### PRICE 
 ```
 #!price weapon                   upgrade price of weapon levels (list)
@@ -72,6 +70,8 @@ python3 -m pip install -U rapidfuzz
 #!price apex                     price of apex brackets (list)
 ```
 
+## Command Todos
+
 #### APEX
 ```
 #!apex help                      apex help
@@ -79,7 +79,6 @@ python3 -m pip install -U rapidfuzz
 #!apex aura                      list of aura apexs
 #!apex zen                       list of zen apexs
 #!apex ship <ship>               apexs the ship has
-#!apex description <apex_name>   apex Description
 #!apex find <apex_name>          list ships with <apex_name>, 
                                  include cost, apex_type (weapon/aura/zen)
 #!apex rank <apex_rank>          list of ships matching apex rank
