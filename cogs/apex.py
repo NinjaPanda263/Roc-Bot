@@ -7,8 +7,8 @@ import sqlite3
 from discord.ext import commands
 from discord.utils import get
 from rapidfuzz import process, fuzz
-from res.common import sanitise_input, ship_search, customemoji
-from res.data import ShipData
+from res.common import sanitise_input, ship_search, customemoji, get_em_colour
+from res.data import ShipData, ApexLister, ApexData
 import re
 
 
@@ -19,7 +19,7 @@ def sql_apex_num_obj():
     conn.row_factory = sqlite3.Row
     # make an sqlite connection object
     c = conn.cursor()
-    # using a defined view s_info find the ship 
+    # using a defined view s_info find the ship
     c.execute('''
 select
     ship.id as id,
@@ -59,39 +59,43 @@ def get_ship_image(ship_name):
     return f"{urlgit}ship_{ship_name}.png"
 
 
-class ImageCog(commands.Cog, name="Image Commands"):
-    """ImageCog"""
+class ApexCog(commands.Cog, name="Apex Commands"):
+    """ApexCog"""
 
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='img')
+    @commands.command(name='apex')
     @commands.guild_only()
     # arg1 is everthing after the command
-    async def img(self, ctx, *, arg1):
+    async def apex(self, ctx, *, arg1):
         rank_list = [i[0] for i in sql_rank_obj()]
-        res = [i for i in rank_list if i.lower() in arg1.lower()] 
+        tokens = arg1.split(" ")
         s_obj = sql_ship_obj()
-        if len(res) == 0:
+        ##If no apex rank is given, show list of available apexes
+        if len(tokens)==1:
             s_obj = ShipData(ctx, arg1).s_obj
-            ship_embed_title = f"{customemoji(ctx, s_obj['rarity'])} {s_obj['name']}"
-            col = int(s_obj['colour'], 16)
+            apex_embed_title = f"Apexes for {s_obj['name']}"
+            colour = get_em_colour(s_obj['affinity'])
             embed = discord.Embed(
-                title=ship_embed_title, 
-                colour=col)
-            embed.set_image(url=get_ship_image(s_obj['number']))
+                title=apex_embed_title,
+                description = ApexLister(ctx, arg1).embed_list,
+                color=colour)
+            #embed.set_image(url=get_ship_image(s_obj['number']))
             await ctx.send(embed=embed)
+        ##If rank is given
         else:
             a_obj = sql_apex_num_obj()
             s_obj = ShipData(ctx, arg1).s_obj
+            apex_tier = process.extractOne(arg1, rank_list)[0]
+            apex_obj = ApexData(ctx, s_obj['name'],apex_tier)
+            colour = get_em_colour(s_obj['affinity'])
+            embed = discord.Embed(title=apex_obj.embed_title, color=colour, description=apex_obj.embed_desc)
             for i in a_obj:
-                if i['id'] == s_obj['number'] and i['rank'] == res[0]:
-                    ship_embed_title = f"{customemoji(ctx, s_obj['rarity'])} {s_obj['name']} {res[0]}"
-                    col = int(s_obj['colour'], 16)
-                    embed = discord.Embed(title=ship_embed_title, colour=col)
-                    embed.set_image(url=get_ship_image(f"{i['id']}_apex_{i['apex_num']}"))
-                    embed.set_footer(text=f"Ship {s_obj['number']}")
+                if i['id'] == s_obj['number'] and i['rank'] == apex_tier:
+                    embed.set_thumbnail(url=get_ship_image(f"{i['id']}_apex_{i['apex_num']}"))
             await ctx.send(embed=embed)
 
 def setup(bot):
-    bot.add_cog(ImageCog(bot))
+    bot.add_cog(ApexCog(bot))
+
