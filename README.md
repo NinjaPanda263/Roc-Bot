@@ -70,8 +70,6 @@ python3 -m pip install -U rapidfuzz
 #!price apex                     price of apex brackets (list)
 ```
 
-## Command Todos
-
 #### APEX
 ```
 #!apex help                      apex help
