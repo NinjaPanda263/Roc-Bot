@@ -3,7 +3,7 @@
 Information bot for the community Phoenix II discord server. 
 Original version located at: https://github.com/Phoenix-II-Community/apex-bot/tree/master
 
-\*\*IMPORTANT** --- Currently "ctx.subcommand_passed" is not working in the code due to Discord not passing the values to the Bot, to get arround this issue, putting "inspect.stack()[0][3]" where "ctx.subcommand_passed" is fixes the isssues. In the cogs folder, daily.py, invader.py, and ship.py is where the changes need to be made.
+\*\*IMPORTANT** --- Currently "ctx.subcommand_passed" is not working in the code due to Discord not passing the values to the Bot. To get arround this issue, import "inspect" replace all instances of "ctx.subcommand_passed" with "inspect.stack()[0][3]". In the cogs folder, daily.py, invader.py, and ship.py are where the changes need to be made.
 
 ## Installation 
 `git clone https://github.com/ewong18/Roc-Bot.git`
