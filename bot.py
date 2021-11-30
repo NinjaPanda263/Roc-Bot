@@ -36,8 +36,8 @@ initial_extensions = ['cogs.simple',
 bot = commands.Bot(
     command_prefix=get_prefix, 
     description='Phoenix 2 iOS information bot',
-    # Jinbe current ID, change to yours when running
-    owner_id=197895310108917762)
+    # NinjaPanda current ID, change to yours when running
+    owner_id=352986404621647873)
 
 
 # Here we load our extensions(cogs) listed above in [initial_extensions].
