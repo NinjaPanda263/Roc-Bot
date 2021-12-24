@@ -55,7 +55,7 @@ def sql_rank_obj():
     return r_obj
 
 def get_ship_image(ship_name):
-    urlgit =    "https://raw.githubusercontent.com/ewong18/Roc-Bot/master/ships/"
+    urlgit =    "https://raw.githubusercontent.com/NinjaPanda263/Roc-Bot/master/ships/"
     return f"{urlgit}ship_{ship_name}.png"
 
 
