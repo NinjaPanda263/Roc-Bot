@@ -55,7 +55,7 @@ class OwnersCog(commands.Cog, name="Owner Commands"):
         await ctx.send("Goodbye")
         await ctx.bot.logout()
 
-    @commands.command(name='me')
+    @commands.command(name='me', hidden=True)
     @commands.is_owner()
     async def only_me(self, ctx):
         """A simple command which only responds to the owner of the bot."""
