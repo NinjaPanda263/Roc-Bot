@@ -28,10 +28,10 @@ class Prices():
     def p_embed(self):
         desc = ''
         for row in self.p_obj:
-            desc = desc + str(row['Level']) + ' - ' + row['Cost'] + '\xa2\n'
+            desc = desc + str(row['Level']) + ' - ' + row['Cost'] + '\n'
         embed = discord.Embed(title='Level' + '\t' + 'Cost', description=desc)
         return embed
-        
+
 class ApexPrices():
     def __init__(self, bot_self, sub_command, arg1):
         self.sc = sub_command
@@ -52,4 +52,3 @@ class ApexPrices():
             desc = f"{desc}{str(row['name'])} - {row['cost']:,}\xa2 \n"
         embed = discord.Embed(title='Level' + '\t' + 'Cost', description=desc)
         return embed
-

@@ -2,23 +2,23 @@
 # -*- coding: utf-8 -*-
 
 from res.common import customemoji, ship_search, sanitise_input, argument_parser, get_em_colour, embed_pagination
-import sqlite3 
+import sqlite3
 import discord.ext.commands
 from discord.ext.commands import Bot
 import urllib.parse
 import random
 
 
-# This class connects to rocbot.sqlite and uses a view to query. The returned 
+# This class connects to rocbot.sqlite and uses a view to query. The returned
 # data is put into an object where methods run uses this info to generate a
-# title, image url, and description which contains emojis. The emoji function 
+# title, image url, and description which contains emojis. The emoji function
 # uses the Bot instance to perform a lookup which is why it's passed through.
-# Because Discord doesn't allow non alpha characters in emojis there's a 
-# santise function that strips unwanted characters which is also used on the 
+# Because Discord doesn't allow non alpha characters in emojis there's a
+# santise function that strips unwanted characters which is also used on the
 # url formatting function. That's technical debt from when this was orignally
-# using json files instead of sqlite and the sub context of the query and name 
-# was used as the name to find image files so they had to match. This isn't the 
-# case anymore and might be better to edit the image names now. 
+# using json files instead of sqlite and the sub context of the query and name
+# was used as the name to find image files so they had to match. This isn't the
+# case anymore and might be better to edit the image names now.
 class ShipData():
     def __init__(self, bot_self, find_this):
         self.bot_self = bot_self
@@ -27,7 +27,7 @@ class ShipData():
         self.img_url = self.get_ship_image()
         self.embed_info = self.info_embed(find_this)
         self.embed_detail = self.detail_embed(find_this)
-        
+
     def sql_ship_obj(self):
         # connect to the sqlite database
         conn = sqlite3.connect('rocbot.sqlite')
@@ -35,7 +35,7 @@ class ShipData():
         conn.row_factory = sqlite3.Row
         # make an sqlite connection object
         c = conn.cursor()
-        # using a defined view s_info find the ship 
+        # using a defined view s_info find the ship
         c.execute('select * from s_info where name = ?', (self.ship_name,))
         # return the ship object including the required elemnts
         s_obj = c.fetchone()
@@ -44,65 +44,68 @@ class ShipData():
         # return the sqlite3.cursor object
         return s_obj
 
-    # Creates the title of the discord emebed consisting of the rarity emoji 
+    # Creates the title of the discord emebed consisting of the rarity emoji
     # the ship name.
     def get_ship_title(self):
         embed_title = (
             f"{customemoji(self.bot_self, self.s_obj['rarity'])} {self.s_obj['name']}")
         return embed_title
-    
+
     # The embed is made up of two sections of content the title and this section
-    # the descriotion. The description contains weapon, aura and zen info using 
-    # an emoji followed by the relevant name of the section. 
+    # the descriotion. The description contains weapon, aura and zen info using
+    # an emoji followed by the relevant name of the section.
     #
-    # The description previously used format() instead f strings bceause at the 
-    # time I didn't see how f strings were suited to json and dicts however 
-    # since using a class that's changed and f strings seemed clearer to read. 
+    # The description previously used format() instead f strings bceause at the
+    # time I didn't see how f strings were suited to json and dicts however
+    # since using a class that's changed and f strings seemed clearer to read.
     def get_ship_description_info(self):
         embed_description = (
             f"{customemoji(self.bot_self, 'dps')} {self.s_obj['dmg']}\n"
-            f"{customemoji(self.bot_self, self.s_obj['affinity'])} {self.s_obj['weapon_name']}\n" 
+            f"{customemoji(self.bot_self, self.s_obj['affinity'])} {self.s_obj['weapon_name']}\n"
             f"{customemoji(self.bot_self, self.s_obj['aura'])} {self.s_obj['aura']}\n"
             f"{customemoji(self.bot_self, self.s_obj['zen'])} {self.s_obj['zen']}")
         return embed_description
-            
+
     def get_ship_description_detail(self):
         embed_description = (
             f"{customemoji(self.bot_self, 'dps')} {self.s_obj['dmg']}\n"
             f"{customemoji(self.bot_self, self.s_obj['affinity'])} {self.s_obj['weapon_name']}")
         return embed_description
-    
+
     def get_ship_image(self):
         urlgit = "https://raw.githubusercontent.com/NinjaPanda263/Roc-Bot/master/ships/"
         img_url = ("{giturl}ship_{shipnumber}.png").format(giturl=urlgit, shipnumber=self.s_obj['number'])
         return img_url
-        
-    # create a discod embed object. Using the Ship class to collect the required 
+
+    # create a discod embed object. Using the Ship class to collect the required
     # data. The embed includes a title as a ship emoji and the ship name queried
     # The description is a combination of weapon, aura and zen names with emojis
-    # to suit. weapon zen gets a generic dps emoji and zen|aura get the specific 
-    # emoji 
+    # to suit. weapon zen gets a generic dps emoji and zen|aura get the specific
+    # emoji
     def info_embed(self, find_this):
         title = self.get_ship_title()
         desc = self.get_ship_description_info()
         col = int(self.s_obj['colour'], 16)
-        return discord.Embed(title=title, 
-        description=desc, colour=col).set_thumbnail(url=self.img_url)
-        
+        foot = self.s_obj['number']
+        return discord.Embed(title=title,
+        description=desc, colour=col).set_thumbnail(url=self.img_url).set_footer(text=foot)
+
     def detail_embed(self, ship_name):
         title = self.get_ship_title()
         desc = self.get_ship_description_detail()
         col = int(self.s_obj['colour'], 16)
+        foot = self.s_obj['number']
         embed = discord.Embed(title=title, description=desc, colour=col)
         embed.add_field(
             name=f"{customemoji(self.bot_self, self.s_obj['aura'])} {self.s_obj['aura']}",
-            value=f"{self.s_obj['aura_desc']}", 
+            value=f"{self.s_obj['aura_desc']}",
             inline=False)
         embed.add_field(
             name=f"{customemoji(self.bot_self, self.s_obj['zen'])} {self.s_obj['zen']}",
-            value=f"{self.s_obj['zen_desc']}", 
+            value=f"{self.s_obj['zen_desc']}",
             inline=False)
         embed.set_thumbnail(url=self.img_url)
+        embed.set_footer(text=foot)
         return embed
 
 class ShipLister():
@@ -164,13 +167,13 @@ class ShipLister():
             colour = get_em_colour(self.arg1)
             for page in self.create_description():
                 await ctx.send(embed=discord.Embed(
-                    title=self.embed_title, 
-                    description=page, 
+                    title=self.embed_title,
+                    description=page,
                     color=colour))
         else:
             for page in self.create_description():
                 await ctx.send(embed=discord.Embed(
-                    title=self.embed_title, 
+                    title=self.embed_title,
                     description=page))
 
     def title(self):
@@ -197,7 +200,7 @@ class CategoryLister():
         conn.row_factory = sqlite3.Row
         # make an sqlite connection object
         c = conn.cursor()
-        # using a defined view s_info collect all table info 
+        # using a defined view s_info collect all table info
         c.execute('select * from s_info')
         # return the ship object including the required elemnts
         s_obj = c.fetchall()
@@ -272,7 +275,7 @@ class ApexLister():
                 apex_type = 'Main Weapon'
             description = f"{description} {find_emoji} {i['rank']}: {i['apex']} - {apex_type} (cost: {i['cost']:,}\xa2) \n"
         return description
-        
+
 class ApexData():
     def __init__(self, bot_self, find_this, res):
         self.bot_self = bot_self
@@ -281,7 +284,7 @@ class ApexData():
         self.apex_obj = self.sql_apex_obj()
         self.embed_title = self.get_title()
         self.embed_desc = self.get_description()
-        
+
     def sql_apex_obj(self):
         # connect to the sqlite database
         conn = sqlite3.connect('rocbot.sqlite')
@@ -304,7 +307,7 @@ class ApexData():
         embed_title = (
             f"{self.apex_obj['name']} {self.apex_obj['rank']}")
         return embed_title
-    
+
     # The embed is made up of two sections of content the title and this section
     # the descriotion. The description contains weapon, aura and zen info using
     # an emoji followed by the relevant name of the section.
@@ -327,4 +330,3 @@ class ApexData():
             f"Type: {apex_type}\n"
             f"Description: {row['a_desc']}")
         return embed_description
-    
