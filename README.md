@@ -82,11 +82,11 @@ python3 -m pip install -U rapidfuzz
 
 ## Mentions
 
-Phoenix II is an arcade Shoot'Em Up developed by Firi Games in 2016. Firi Games is an independent game studio focused on developing premium games for iPhone, iPad and Apple TV. Firi Games is based in The Hague, Netherlands.
+Phoenix II is an arcade Shoot'Em Up developed by Firi Games in 2016. Firi Games is an independent game studio focused on developing premium games for many Apple products and Android. Firi Games is based in The Hague, Netherlands.
 
 - My Phoenix II Community: "Bullet Hellspawn"
 - Phoenix II Reddit: https://www.reddit.com/r/Phoenix_2/
-- Phoenix II Discord Server: https://discord.gg/zCSNnCT
+- Phoenix II Discord Server: https://discord.gg/phoenix2
 - Firi Games Website: https://www.firigames.com/
 - Download Phoenix II: https://itunes.apple.com/au/app/phoenix-ii/id1134895689
 
